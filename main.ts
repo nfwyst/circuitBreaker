@@ -21,7 +21,7 @@ interface OPTIONS {
   url: string,
   method: string,
   responseType: string,
-  timeout: number
+  timeout?: number
 }
 
 enum STATUS {
@@ -110,7 +110,7 @@ class CirCuitBreaker {
     const { method, url: URL, responseType, timeout } = options
     const id = `${method}${URL}`
     if (!this.canRequest(id)) return Promise.resolve(null)
-    options.timeout = timeout * 1000
+    options.timeout = (timeout || this.requestTimeout) * 1000
 
     const cacheId = crypto.createHash('md5')
       .update(`${method}${url.parse(URL).path}`)
