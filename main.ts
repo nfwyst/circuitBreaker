@@ -106,7 +106,7 @@ class CirCuitBreaker {
     )(nextTry)
   }
 
-  async fetch(options: OPTIONS): Promise<any> {
+  public fetch = async (options: OPTIONS): Promise<any> => {
     const { method, url: URL, responseType, timeout } = options
     const id = `${method}${URL}`
     if (!this.canRequest(id)) return Promise.resolve(null)
