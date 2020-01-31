@@ -133,16 +133,16 @@ class CirCuitBreaker {
           )
         },
         () => this.cache[cacheId] = data
-      )
+      )(null)
       return Promise.resolve(data)
     } catch {
       this.onFailure(id)
       const filePath = path.join(cachePath, cacheId)
       return ifElse(
-        () => fs.existsSync(filePath),
+        fs.existsSync,
         () => Promise.resolve(fs.createReadStream(filePath)),
         () => Promise.resolve(this.cache[cacheId] || null)
-      )
+      )(filePath)
     }
   }
 }
